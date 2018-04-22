@@ -26,7 +26,7 @@ public class MutantDetector {
 				if (hasSequence.test(BaseNitrogenada.build(i, j, adn))) {
 					sequencesCount++;
 					LOGGER.debug("Secuencia encontrada comenzando en {},{} ({})", i, j, adn[i][j]);
-					//Marcamos ésta base nitrogenada para no volver a incluirla
+					//Marcamos esta base nitrogenada para no volver a incluirla
 					adn[i][j] = "-";
 				}
 			}
