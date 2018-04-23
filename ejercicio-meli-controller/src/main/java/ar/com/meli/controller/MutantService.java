@@ -10,22 +10,30 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.meli.exceptions.NotMutantException;
-import ar.com.meli.mutant.MutantDetector;
+import ar.com.meli.mutant.service.MutantDetectorService;
+import ar.com.meli.mutant.valueobjects.DnaRecordStats;
 import ar.com.meli.mutant.valueobjects.MutantRequest;
 
 @RestController
 public class MutantService {
 
 	@Autowired
-	private MutantDetector mutantDetector;
+	private MutantDetectorService mutantDetectorService;
 
 	@RequestMapping(method = RequestMethod.POST, path = "/mutant", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public void isMutant(@RequestBody MutantRequest request) throws NotMutantException {
 
-		if (!mutantDetector.isMutant(request.getDna())) {
+		if (!mutantDetectorService.isMutant(request.getDna())) {
 			throw new NotMutantException("DNA is not mutant.");
 		}
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/stats")
+	public DnaRecordStats stats() {
+
+		return mutantDetectorService.getDnaStats();
 
 	}
 
