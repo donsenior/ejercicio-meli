@@ -10,24 +10,10 @@ public class MutantDetectorService {
 
 	private final MutantDetector mutantDetector;
 
-	private final Map<String[], Boolean> dnaRecord = new ConcurrentHashMap<>();
+	private final Map<String, Boolean> dnaRecord = new ConcurrentHashMap<>();
 
 	public MutantDetectorService(MutantDetector mutantDetector) {
 		this.mutantDetector = mutantDetector;
-	}
-
-	public boolean isMutant(String[] dna) {
-		boolean result;
-
-		if (dnaRecord.containsKey(dna)) {
-			result = dnaRecord.get(dna);
-		} else {
-			result = mutantDetector.isMutant(dna);
-			dnaRecord.put(dna, result);
-		}
-
-		return result;
-
 	}
 
 	public DnaRecordStats getDnaStats() {
@@ -35,6 +21,30 @@ public class MutantDetectorService {
 		int humans = dnaRecord.values().stream().mapToInt(b -> !b ? 1 : 0).sum();
 
 		return new DnaRecordStats(mutants, humans);
+	}
+
+	public boolean isMutant(String[] dna) {
+		boolean result;
+		
+		String dnaString = asString(dna);
+
+		if (dnaRecord.containsKey(dnaString)) {
+			result = dnaRecord.get(dnaString);
+		} else {
+			result = mutantDetector.isMutant(dna);
+			dnaRecord.put(dnaString, result);
+		}
+
+		return result;
+
+	}
+
+	private String asString(String[] dna) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (String string : dna) {
+			stringBuilder.append(string);
+		}
+		return stringBuilder.toString();
 	}
 
 }
