@@ -21,8 +21,8 @@ public class MutantDetector {
 
 	private boolean isMutant(String[][] adn) {
 		int sequencesCount = 0;
-		for (int i = 0; i < adn.length; i++) {
-			for (int j = 0; j < adn.length; j++) {
+		for (int i = 0; i < adn.length && sequencesCount < 2; i++) {
+			for (int j = 0; j < adn.length && sequencesCount < 2; j++) {
 				if (hasSequence.test(BaseNitrogenada.build(i, j, adn))) {
 					sequencesCount++;
 					LOGGER.debug("Secuencia encontrada comenzando en {},{} ({})", i, j, adn[i][j]);
