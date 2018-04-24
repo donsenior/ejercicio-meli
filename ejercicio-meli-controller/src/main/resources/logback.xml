@@ -8,7 +8,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.examen.despegar" level="${examen.app.log.level:-debug}"/>
+	<logger name="ar.com.meli" level="${examen.app.log.level:-debug}"/>
 	
 	<root level="${examen.system.log.level:-info}">
 		<appender-ref ref="STDOUT" />
