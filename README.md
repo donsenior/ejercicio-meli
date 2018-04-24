@@ -16,7 +16,13 @@ http://mutant-detector-meli.193b.starter-ca-central-1.openshiftapps.com/stats
 
 `~/ejercicio-meli $ mvn clean install`
 
-## Deploy
+## Ejecución del servicio en modo standalone
+
+Ejecutar el comando `java -jar ejercicio-meli-controller-1.0.0-SNAPSHOT-exec.war`
+
+El war se encuentra en `/ejercicio-meli/ejercicio-meli-controller/target/`
+
+## Ejecución en servlet container
 
 Deployar el war generado que se encuentra en la capeta `target`, en cualquier servlet container.
 
