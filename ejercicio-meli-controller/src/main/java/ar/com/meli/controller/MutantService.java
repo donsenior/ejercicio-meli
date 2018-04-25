@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.com.meli.exceptions.BadRequestException;
 import ar.com.meli.exceptions.NotMutantException;
 import ar.com.meli.mutant.service.MutantDetectorService;
 import ar.com.meli.mutant.valueobjects.DnaRecordStats;
@@ -22,10 +23,14 @@ public class MutantService {
 
 	@RequestMapping(method = RequestMethod.POST, path = "/mutant", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public void isMutant(@RequestBody MutantRequest request) throws NotMutantException {
+	public void isMutant(@RequestBody MutantRequest request) throws NotMutantException, BadRequestException {
 
-		if (!mutantDetectorService.isMutant(request.getDna())) {
-			throw new NotMutantException("DNA is not mutant.");
+		try {
+			if (!mutantDetectorService.isMutant(request.getDna())) {
+				throw new NotMutantException("DNA is not mutant.");
+			}
+		} catch (IllegalArgumentException e) {
+			throw new BadRequestException(e.getMessage());
 		}
 
 	}
